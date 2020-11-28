@@ -1,0 +1,111 @@
+﻿using System;
+
+namespace Final
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            GameEngine game = new GameEngine();
+            bool exit = false;           
+            while (exit == false)
+            {
+                string movekey = DrawMap(game);
+                Console.Beep();
+                bool valid = false;
+                while (valid == false)
+                {
+                    switch (movekey.ToLower())
+                    {
+                        case "w":
+                            game.MovePlayer(Character.Movements.Up);
+                            valid = true;
+                            break;
+                        case "a":
+                            game.MovePlayer(Character.Movements.Left);
+                            valid = true;
+                            break;
+                        case "s":
+                            game.MovePlayer(Character.Movements.Down);
+                            valid = true;
+                            break;
+                        case "d":
+                            game.MovePlayer(Character.Movements.Right);
+                            valid = true;
+                            break;
+                        case "x":
+                            exit = true;
+                            valid = true;
+                            break;
+                        default:
+                            int key = -1;
+                            int.TryParse(movekey, out key);
+                            if (key > 0 && key <= game.PlayerMap.enemy.Length)
+                            {
+                                var enemy = game.PlayerMap.enemy[key - 1];
+                                if ( enemy != null)
+                                { 
+                                    bool inRange = game.Player.CheckRange(enemy);
+                                    if (inRange == true)
+                                    {
+                                        game.Player.Attack(enemy);
+
+                                        Console.WriteLine("Successful Attack");
+                                        Console.WriteLine("Press enter to continue");
+                                        if (enemy.IsDead())
+                                        {
+                                            game.PlayerMap.mapArray[enemy.y, enemy.x] = new EmptyTile(enemy.x, enemy.y);
+                                           //game.PlayerMap.mapArray[game.PlayerMap.enemy[key - 1].x, game.PlayerMap.enemy[key - 1].y].TileEnum = Tile.TileType.Empty;
+                                            game.PlayerMap.enemy[key - 1] = null;
+                                            game.PlayerMap.UpdateVision();
+                                        }
+                                        Console.ReadLine();
+                                        valid = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Enemy is out of range. please select a valid target or move.");
+                                        movekey = Console.ReadLine();
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                Console.Beep();
+                                Console.WriteLine("Invalid Move. Please move Hero with W/A/S/D. (Up, Left, Down, Right)\nPress x to exit game.");
+                                movekey = Console.ReadLine();
+                            }
+                            break;
+
+                           
+                    }
+                    game.MoveEnemies();
+                }
+                
+                game.EnemyAttack();
+            }
+
+
+            static string DrawMap(GameEngine game)
+            {            
+                Console.Clear();
+                Console.WriteLine(game.Player.ToString());
+                Console.WriteLine();
+                Console.WriteLine(game.ToString());
+                Console.WriteLine();
+
+                Console.WriteLine("Please move Hero with W/A/S/D. (Up, Left, Down, Right).\nPress x to exit game.");
+                //move or attack
+                Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
+                for (int i = 0; i < game.PlayerMap.enemy.Length; i++)
+                {
+                    if (game.PlayerMap.enemy[i] == null) Console.WriteLine((i+1) + ". Dead");
+                    else Console.WriteLine(String.Format("{0}. {1}", i+1, game.PlayerMap.enemy[i].ToString()));
+                }
+                return Console.ReadLine();
+            }
+        }
+    }
+}
