@@ -260,6 +260,16 @@ namespace Final
                 }
 
 
+                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Goblin)
+                {
+                    for (int m = 0; m < 4; m++)
+                    {
+                        if (playerMap.enemy[i].Vision[m].TileEnum == Tile.TileType.Hero)
+                        {
+                            PlayerMap.enemy[i].Attack(player);
+                        }
+                    }
+                }
             }
         }
 
@@ -275,7 +285,7 @@ namespace Final
                 var enemy = PlayerMap.enemy[i];
                 int X = enemy.x;
                 int Y = enemy.y;
-                if (enemy.TileEnum == Tile.TileType.Goblin)
+                if (enemy.TileEnum == Tile.TileType.Goblin || enemy.TileEnum == Tile.TileType.Leader)
                 {
                     Character.Movements moves = enemy.ReturnMove();
                     switch (moves)

@@ -55,14 +55,14 @@ namespace Final
 
             H = (Hero)Create(Tile.TileType.Hero);
 
-            count = 0;
+            count = 1;
             int rand;
+            enemy[0] = (Enemy)Create(Tile.TileType.Leader);
             while (count != numEnemies)
             {
                 rand = r.Next(1, 4);
                 if (rand == 1) enemy[count] = (Enemy)Create(Tile.TileType.Mage);
-                if (rand == 2) enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
-                if (rand == 3) enemy[count] = (Enemy)Create(Tile.TileType.Leader);
+                if (rand > 1) enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
                 count++;
             }
 
