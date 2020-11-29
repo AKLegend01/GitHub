@@ -9,6 +9,7 @@ namespace Final
         private Map playerMap;
         private Hero player;
         private Tile empty;
+        private Shop shop;
         private static readonly char Hero = 'H';
         private static readonly char Obsticle = 'X';
         private static readonly char Empty = '.';
