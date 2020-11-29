@@ -10,7 +10,7 @@ namespace Final
         public override int Range { get => base.Range; set => base.Range = 1; }
 
 
-        public MeleeWeapon(Types M, int x, int y) : base(x, y, '!')
+        public MeleeWeapon(Types M, int x, int y) : base(x, y, 'm')
         {
             switch(M)
             {
