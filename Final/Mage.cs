@@ -9,6 +9,7 @@ namespace Final
         public Mage(int x, int y) : base(x, y, 5, 5, 'M')
         {
             this.TileEnum = TileType.Mage;
+            this.Gold = 3;
         }
 
         public override Movements ReturnMove(Movements Move)

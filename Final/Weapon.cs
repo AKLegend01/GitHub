@@ -21,7 +21,7 @@ namespace Final
 
         public Weapon(int x, int y, char what) : base(x, y)
         {
-
+            this.TileEnum = TileType.Weapon;
         }
     }
 }

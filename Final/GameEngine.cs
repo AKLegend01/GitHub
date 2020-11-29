@@ -10,6 +10,7 @@ namespace Final
         private Hero player;
         private Tile empty;
         private Shop shop;
+
         private static readonly char Hero = 'H';
         private static readonly char Obsticle = 'X';
         private static readonly char Empty = '.';
@@ -202,7 +203,14 @@ namespace Final
                     {
                         MapLine += Convert.ToString(Obsticle);
                     }
-
+                    if (this.PlayerMap.mapArray[y, x].TileEnum == Tile.TileType.Weapon)
+                    {
+                        MapLine += "W";
+                    }
+                    if (this.PlayerMap.mapArray[y, x].TileEnum == Tile.TileType.Leader)
+                    {
+                        MapLine += "L";
+                    }
                 }
 
                 MapLine += "\n";

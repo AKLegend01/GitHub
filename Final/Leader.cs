@@ -13,7 +13,8 @@ namespace Final
 
         public Leader(int x, int y) : base(x, y, 2, 20, 'L')
         {
-
+            this.TileEnum = TileType.Leader;
+            this.Gold = 2;
         }
 
         public override Movements ReturnMove(Movements Move)

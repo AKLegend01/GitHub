@@ -101,6 +101,18 @@ namespace Final
         {
             this.pickedUpWeapon = W;
         }
+
+        public void Loot(Character target)
+        {
+            this.goldPocket += target.goldPocket;
+
+            if (target.pickedUpWeapon != null && this.pickedUpWeapon == null)
+            {
+                this.pickedUpWeapon = target.pickedUpWeapon;
+            }
+
+
+        }
     }
 
 
