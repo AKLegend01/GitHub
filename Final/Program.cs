@@ -9,12 +9,12 @@ namespace Final
             
             GameEngine game = new GameEngine();
             bool exit = false;           
-            while (exit == false)
+            while (exit == false) // exit game
             {
                 string movekey = DrawMap(game);
                 Console.Beep();
                 bool valid = false;
-                while (valid == false)
+                while (valid == false)  //movement logic
                 {
                     switch (movekey.ToLower())
                     {
@@ -39,51 +39,63 @@ namespace Final
                             valid = true;
                             break;
                         default:
-                            int key = -1;
-                            int.TryParse(movekey, out key);
-                            if (key > 0 && key <= game.PlayerMap.enemy.Length)
-                            {
-                                var enemy = game.PlayerMap.enemy[key - 1];
-                                if ( enemy != null)
-                                { 
-                                    bool inRange = game.Player.CheckRange(enemy);
-                                    if (inRange == true)
-                                    {
-                                        game.Player.Attack(enemy);
+                            Console.Beep();
+                            Console.WriteLine("Invalid Move. Please move Hero with W/A/S/D. (Up, Left, Down, Right)\nPress x to exit game.");
+                            movekey = Console.ReadLine();
 
-                                        Console.WriteLine("Successful Attack");
-                                        Console.WriteLine("Press enter to continue");
-                                        if (enemy.IsDead())
-                                        {
-                                            game.PlayerMap.mapArray[enemy.y, enemy.x] = new EmptyTile(enemy.x, enemy.y);
-                                           //game.PlayerMap.mapArray[game.PlayerMap.enemy[key - 1].x, game.PlayerMap.enemy[key - 1].y].TileEnum = Tile.TileType.Empty;
-                                            game.PlayerMap.enemy[key - 1] = null;
-                                            game.PlayerMap.UpdateVision();
-                                        }
-                                        Console.ReadLine();
-                                        valid = true;
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Enemy is out of range. please select a valid target or move.");
-                                        movekey = Console.ReadLine();
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                Console.Beep();
-                                Console.WriteLine("Invalid Move. Please move Hero with W/A/S/D. (Up, Left, Down, Right)\nPress x to exit game.");
-                                movekey = Console.ReadLine();
-                            }
                             break;
 
                            
                     }
-                    game.MoveEnemies();
+
+                   
                 }
-                
+
+
+                Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
+                movekey = Console.ReadLine();
+                valid = false;
+
+                while (valid == false)  // attack logic
+                {
+                    int key = -1;
+                    int.TryParse(movekey, out key);
+                    if (key > 0 && key <= game.PlayerMap.enemy.Length)
+                    {
+                        var enemy = game.PlayerMap.enemy[key - 1];
+                        if (enemy != null)
+                        {
+                            bool inRange = game.Player.CheckRange(enemy);
+                            if (inRange == true)
+                            {
+                                game.Player.Attack(enemy);
+
+                                Console.WriteLine("Successful Attack");
+                                Console.WriteLine("Press enter to continue");
+                                if (enemy.IsDead())
+                                {
+                                    game.PlayerMap.mapArray[enemy.y, enemy.x] = new EmptyTile(enemy.x, enemy.y);
+                                    game.PlayerMap.enemy[key - 1] = null;
+                                    game.PlayerMap.UpdateVision();
+                                }
+                                Console.ReadLine();
+                                valid = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Enemy is out of range. please select a valid target");
+                                movekey = Console.ReadLine();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("the enemy you selected does not exsist or is dead. Please select a valid target.");
+                        movekey = Console.ReadLine();
+                    }
+                }
+                game.MoveEnemies();
                 game.EnemyAttack();
             }
 
@@ -97,8 +109,7 @@ namespace Final
                 Console.WriteLine();
 
                 Console.WriteLine("Please move Hero with W/A/S/D. (Up, Left, Down, Right).\nPress x to exit game.");
-                //move or attack
-                Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
+                //move or attack                
                 for (int i = 0; i < game.PlayerMap.enemy.Length; i++)
                 {
                     if (game.PlayerMap.enemy[i] == null) Console.WriteLine((i+1) + ". Dead");
