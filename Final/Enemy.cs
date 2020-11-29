@@ -17,7 +17,12 @@ namespace Final
 
         public override string ToString()
         {
-            string Output = String.Format("{0}[{1}, {2}], Damage: {3}, HP: {4}",nameof(Enemy) , y , x , this.Damage, this.HP);
+            string Output;
+            if (this.PickedUpWeapon == null)
+            {
+                Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] ({6} DMG)", "Barehanded", nameof(Enemy), this.HP, this.MaxHP, y, x, this.Damage);
+            }
+            else Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] with {6} (Durability: {7}, {8} DMG)", "Equipped", nameof(Enemy), this.HP, this.MaxHP, y, x, this.PickedUpWeapon.Type, this.PickedUpWeapon.Durability, this.PickedUpWeapon.Damage);
             return Output;
 
 

@@ -113,7 +113,7 @@ namespace Final
                     tile = new Gold(PosX, PosY);
                     break;   
                 case Tile.TileType.Weapon:
-                    tile = new Weapon(PosX, PosY, 'y');
+                    // tile = new Weapon(PosX, PosY, 'y');
                     break;
                 case Tile.TileType.Empty:
                     throw new NotImplementedException();

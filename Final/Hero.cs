@@ -17,10 +17,21 @@ namespace Final
         public override string ToString()
         {
             string Output = "Player Stats : \n";
-            Output += "HP : " + HP + "/" + MaxHP + "\n";
-            Output += "Damage : 2\n";
+            Output += "HP : " + HP + "/" + MaxHP + "\n";           
             Output += "[" + y + ", " + x + "]\n";
-            Output += "gold : " + Gold;
+            Output += "Gold : " + Gold + "\n";
+            if (PickedUpWeapon == null)
+            {
+                Output += "Weapon : Bare Hand\n";
+                Output += "Weapon Range : 1\n";
+                Output += "Damage : 2";
+            }
+            else
+            {
+                Output += "Weapon : " + PickedUpWeapon.Type + "\n";
+                Output += "Weapon Range : " + PickedUpWeapon.Range + "\n";
+                Output += "Damage : " + PickedUpWeapon.Damage;
+            }
 
 
             return Output;

@@ -10,6 +10,7 @@ namespace Final
         public Goblin(int x, int y) : base(x, y, 1, 10, 'G')
         {
             this.TileEnum = TileType.Goblin;
+            //this.PickedUpWeapon;
         }
 
         public override Movements ReturnMove(Movements Move)

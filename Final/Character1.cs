@@ -11,6 +11,8 @@ namespace Final
         private int damage;
         private Tile[] vision = new Tile[8];
         private int goldPocket;
+        private Weapon pickedUpWeapon;
+
         public enum Movements { None, Up, Down, Left, Right };
 
         public int HP { get => hP; set => hP = value; }
@@ -18,8 +20,7 @@ namespace Final
         public int Damage { get => damage; set => damage = value; }
         public Tile[] Vision { get => vision; set => vision = value; }
         public int Gold { get => goldPocket; set => goldPocket = value; }
-
-
+        public Weapon PickedUpWeapon { get => pickedUpWeapon; set => pickedUpWeapon = value; }
 
         public Character(int x, int y, char Who) : base(x, y)
         {
@@ -89,6 +90,16 @@ namespace Final
                 var gold = (Gold)I;
                 this.goldPocket += gold.goldAmount;
             }
+
+            if (I.TileEnum == TileType.Weapon)
+            {
+                Equip((Weapon)I);
+            }
+        }
+
+        private void Equip(Weapon W)
+        {
+            this.pickedUpWeapon = W;
         }
     }
 
