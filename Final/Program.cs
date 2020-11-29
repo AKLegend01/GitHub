@@ -51,48 +51,60 @@ namespace Final
                    
                 }
 
-
-                Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
-                movekey = Console.ReadLine();
-                valid = false;
-
-                while (valid == false)  // attack logic
+                bool EnemyInRange = false;
+                
+                for (int i = 0; i < 4; i++)
                 {
-                    int key = -1;
-                    int.TryParse(movekey, out key);
-                    if (key > 0 && key <= game.PlayerMap.enemy.Length)
+                    if (game.Player.Vision[i].TileEnum == Tile.TileType.Goblin || game.Player.Vision[i].TileEnum == Tile.TileType.Mage)
                     {
-                        var enemy = game.PlayerMap.enemy[key - 1];
-                        if (enemy != null)
-                        {
-                            bool inRange = game.Player.CheckRange(enemy);
-                            if (inRange == true)
-                            {
-                                game.Player.Attack(enemy);
-
-                                Console.WriteLine("Successful Attack");
-                                Console.WriteLine("Press enter to continue");
-                                if (enemy.IsDead())
-                                {
-                                    game.PlayerMap.mapArray[enemy.y, enemy.x] = new EmptyTile(enemy.x, enemy.y);
-                                    game.PlayerMap.enemy[key - 1] = null;
-                                    game.PlayerMap.UpdateVision();
-                                }
-                                Console.ReadLine();
-                                valid = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Enemy is out of range. please select a valid target");
-                                movekey = Console.ReadLine();
-                            }
-                        }
-
+                        EnemyInRange = true;
                     }
-                    else
+                }
+
+                if (EnemyInRange == true)
+                {
+                    Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
+                    movekey = Console.ReadLine();
+                    valid = false;
+
+                    while (valid == false)  // attack logic
                     {
-                        Console.WriteLine("the enemy you selected does not exsist or is dead. Please select a valid target.");
-                        movekey = Console.ReadLine();
+                        int key = -1;
+                        int.TryParse(movekey, out key);
+                        if (key > 0 && key <= game.PlayerMap.enemy.Length)
+                        {
+                            var enemy = game.PlayerMap.enemy[key - 1];
+                            if (enemy != null)
+                            {
+                                bool inRange = game.Player.CheckRange(enemy);
+                                if (inRange == true)
+                                {
+                                    game.Player.Attack(enemy);
+
+                                    Console.WriteLine("Successful Attack");
+                                    Console.WriteLine("Press enter to continue");
+                                    if (enemy.IsDead())
+                                    {
+                                        game.PlayerMap.mapArray[enemy.y, enemy.x] = new EmptyTile(enemy.x, enemy.y);
+                                        game.PlayerMap.enemy[key - 1] = null;
+                                        game.PlayerMap.UpdateVision();
+                                    }
+                                    Console.ReadLine();
+                                    valid = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Enemy is out of range. please select a valid target");
+                                    movekey = Console.ReadLine();
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("the enemy you selected does not exsist or is dead. Please select a valid target.");
+                            movekey = Console.ReadLine();
+                        }
                     }
                 }
                 game.MoveEnemies();
@@ -117,6 +129,9 @@ namespace Final
                 }
                 return Console.ReadLine();
             }
+
+
+
         }
     }
 }
