@@ -21,14 +21,14 @@ namespace Final
         public Enemy[] enemy { get => Enemy; set => Enemy = value; }
         internal Item[] items { get => Items; set => Items = value; }
 
-        public Map(int minW, int maxW, int minH, int maxH, int numEnemies, int goldDrop)
+        public Map(int minW, int maxW, int minH, int maxH, int numEnemies, int goldDrop, int weaponDrop)
         {
             MapWidth = r.Next(minW, maxW + 1);
             MapHeight = r.Next(minH, maxH + 1);
             this.MapArray = new Tile[MapHeight, MapWidth];
             this.Enemy = new Enemy[numEnemies];
 
-            this.Items = new Item[goldDrop];
+            this.Items = new Item[goldDrop+weaponDrop];
 
 
 
@@ -61,7 +61,8 @@ namespace Final
             {
                 rand = r.Next(1, 4);
                 if (rand == 1) enemy[count] = (Enemy)Create(Tile.TileType.Mage);
-                else enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
+                if (rand == 2) enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
+                if (rand == 3) enemy[count] = (Enemy)Create(Tile.TileType.Leader);
                 count++;
             }
 
@@ -72,6 +73,11 @@ namespace Final
                 count++;
             }
 
+            while (count < weaponDrop)
+            {
+                items[count] = (Item)Create(Tile.TileType.Weapon);
+                count++;
+            }
 
         }
 
@@ -107,7 +113,8 @@ namespace Final
                     tile = new Gold(PosX, PosY);
                     break;   
                 case Tile.TileType.Weapon:
-                    throw new NotImplementedException();
+                    tile = new Weapon(PosX, PosY, 'y');
+                    break;
                 case Tile.TileType.Empty:
                     throw new NotImplementedException();
                 default: return null;

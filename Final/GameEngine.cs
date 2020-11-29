@@ -23,7 +23,7 @@ namespace Final
 
         public GameEngine()
         {
-            playerMap = new Map(12, 22, 12, 22, 10, 5);
+            playerMap = new Map(12, 22, 12, 22, 10, 5, 5);
             playerMap.UpdateVision();
             Player = playerMap.h;
         }
