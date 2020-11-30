@@ -7,7 +7,16 @@ namespace Final
     class MeleeWeapon : Weapon
     {
         public enum Types {Dagger, LongSword}
-        public override int Range { get => base.Range; set => base.Range = 1; }
+        private int range;
+        public override int Range
+        {
+            get { return range; }
+        }
+
+        public void SetRange(int Range)
+        {
+            this.range = Range;
+        }
 
 
         public MeleeWeapon(Types M, int x = 0, int y = 0) : base('m', x, y)
@@ -17,6 +26,7 @@ namespace Final
                 case Types.Dagger :
                     Type = "Dagger";
                     Durability = 10;
+                    SetRange(1);
                     Damage = 3;
                     Cost = 3;
 
@@ -24,6 +34,7 @@ namespace Final
                 case Types.LongSword :
                     Type = "Longsword";
                     Durability = 6;
+                    SetRange(1);
                     Damage = 4;
                     Cost = 5;
                     break;

@@ -7,7 +7,16 @@ namespace Final
     class RangedWeapon : Weapon
     {
         public enum Types {Rifle, Longbow};
-        public override int Range { get => base.Range; set => base.Range = value; }
+        private int range;
+        public override int Range
+        {
+            get { return range; }
+        }
+
+        public void SetRange(int Range)
+        {
+            this.range = Range;
+        }
 
 
         public RangedWeapon(Types R, int x = 0, int y = 0) : base('r', x, y)
@@ -17,7 +26,7 @@ namespace Final
                 case Types.Rifle:
                     Type = "Rifle";
                     Durability = 3;
-                    Range = 3;
+                    SetRange(3);
                     Damage = 5;
                     Cost = 7;
 
@@ -25,7 +34,7 @@ namespace Final
                 case Types.Longbow:
                     Type = "Longbow";
                     Durability = 4;
-                    Range = 2;
+                    SetRange(2);
                     Damage = 4;
                     Cost = 6;
                     break;
@@ -39,7 +48,7 @@ namespace Final
                 case Types.Rifle:
                     Type = "Rifle";
                     Durability = durable;
-                    Range = 3;
+                    SetRange(3);
                     Damage = 5;
                     Cost = 7;
 
@@ -47,7 +56,7 @@ namespace Final
                 case Types.Longbow:
                     Type = "Longbow";
                     Durability = durable;
-                    Range = 2;
+                    SetRange(2);
                     Damage = 4;
                     Cost = 6;
                     break;

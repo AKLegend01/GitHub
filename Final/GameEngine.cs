@@ -293,7 +293,7 @@ namespace Final
                 var enemy = PlayerMap.enemy[i];
                 int X = enemy.x;
                 int Y = enemy.y;
-                if (enemy.TileEnum == Tile.TileType.Goblin /*|| enemy.TileEnum == Tile.TileType.Leader*/)
+                if (enemy.TileEnum == Tile.TileType.Goblin || enemy.TileEnum == Tile.TileType.Leader)
                 {
                     Character.Movements moves = enemy.ReturnMove();
                     switch (moves)
@@ -301,24 +301,89 @@ namespace Final
                         case Character.Movements.None:
                             break;
                         case Character.Movements.Up:
-                            enemy.y = Y - 1;
-                            PlayerMap.mapArray[Y - 1, X] = enemy;
-                            PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            if (enemy.Vision[0].TileEnum == Tile.TileType.Gold || enemy.Vision[0].TileEnum == Tile.TileType.Weapon)
+                            {
+                                for (int j = 0; j < playerMap.items.Length; j++)
+                                {
+                                    if (playerMap.items[j].x == enemy.x && playerMap.items[j].y - 1 == enemy.y)
+                                    {
+                                        enemy.PickUp(playerMap.items[i]);
+                                    }
+                                }
+                                enemy.y = Y - 1;
+                                PlayerMap.mapArray[Y - 1, X] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
+                            else
+                            {
+                                enemy.y = Y - 1;
+                                PlayerMap.mapArray[Y - 1, X] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
                             break;
                         case Character.Movements.Down:
-                            enemy.y = Y + 1;
-                            PlayerMap.mapArray[Y + 1, X] = enemy;
-                            PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            if (enemy.Vision[1].TileEnum == Tile.TileType.Gold || enemy.Vision[1].TileEnum == Tile.TileType.Weapon)
+                            {
+                                for (int j = 0; j < playerMap.items.Length; j++)
+                                {
+                                    if (playerMap.items[j].x == enemy.x && playerMap.items[j].y + 1 == enemy.y)
+                                    {
+                                        enemy.PickUp(playerMap.items[i]);
+                                    }
+                                }
+                                enemy.y = Y + 1;
+                                PlayerMap.mapArray[Y + 1, X] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
+                            else
+                            {
+                                enemy.y = Y + 1;
+                                PlayerMap.mapArray[Y + 1, X] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
                             break;
                         case Character.Movements.Left:
-                            enemy.x = X - 1;
-                            PlayerMap.mapArray[Y, X - 1] = enemy;
-                            PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            if (enemy.Vision[2].TileEnum == Tile.TileType.Gold || enemy.Vision[2].TileEnum == Tile.TileType.Weapon)
+                            {
+                                for (int j = 0; j < playerMap.items.Length; j++)
+                                {
+                                    if (playerMap.items[j].x == enemy.x - 1 && playerMap.items[j].y == enemy.y)
+                                    {
+                                        enemy.PickUp(playerMap.items[i]);
+                                    }
+                                }
+                                enemy.x = X - 1;
+                                PlayerMap.mapArray[Y, X - 1] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
+                            else
+                            {
+                                enemy.x = X - 1;
+                                PlayerMap.mapArray[Y, X - 1] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
                             break;
                         case Character.Movements.Right:
-                            enemy.x = X + 1;
-                            PlayerMap.mapArray[Y, X + 1] = enemy;
-                            PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            if (enemy.Vision[3].TileEnum == Tile.TileType.Gold || enemy.Vision[3].TileEnum == Tile.TileType.Weapon)
+                            {
+                                for (int j = 0; j < playerMap.items.Length; j++)
+                                {
+                                    if (playerMap.items[j].x == enemy.x + 1 && playerMap.items[j].y == enemy.y)
+                                    {
+                                        enemy.PickUp(playerMap.items[i]);
+                                    }
+                                }
+
+                                enemy.x = X + 1;
+                                PlayerMap.mapArray[Y, X + 1] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
+                            else
+                            {
+                                enemy.x = X + 1;
+                                PlayerMap.mapArray[Y, X + 1] = enemy;
+                                PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
+                            }
                             break;
                     }
                     
