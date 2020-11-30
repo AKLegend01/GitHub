@@ -36,7 +36,7 @@ namespace Final
                 {
                     if (this.Vision[0].TileEnum == TileType.Empty)
                     {
-                        move = 1;
+                        move = 0;
                         foundMove = true;
                     }
                 }
@@ -44,7 +44,7 @@ namespace Final
                 {
                     if (this.Vision[1].TileEnum == TileType.Empty)
                     {
-                        move = 2;
+                        move = 1;
                         foundMove = true;
                     }
                 }
@@ -55,7 +55,7 @@ namespace Final
                 {
                     if (this.Vision[2].TileEnum == TileType.Empty)
                     {
-                        move = 3;
+                        move = 2;
                         foundMove = true;
                     }
                 }
@@ -63,7 +63,7 @@ namespace Final
                 {
                     if (this.Vision[3].TileEnum == TileType.Empty)
                     {
-                        move = 4;
+                        move = 3;
                         foundMove = true;
                     }
                 }
@@ -73,7 +73,8 @@ namespace Final
             while(foundMove == false)
             {
                 move = this.r.Next(1, 5);
-                if (this.Vision[move-1].TileEnum != TileType.Empty) move = this.r.Next(1, 5);
+                if (this.Vision[move].TileEnum != TileType.Empty) move = this.r.Next(1, 5);
+                else foundMove = true;
             }
 
             return (Movements)move;

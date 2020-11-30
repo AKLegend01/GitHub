@@ -268,7 +268,7 @@ namespace Final
                 }
 
 
-                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Goblin)
+                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Leader)
                 {
                     for (int m = 0; m < 4; m++)
                     {

@@ -72,6 +72,7 @@ namespace Final
                         int.TryParse(movekey, out key);
                         if (key > 0 && key <= game.PlayerMap.enemy.Length)
                         {
+                            movekey = null;
                             var enemy = game.PlayerMap.enemy[key - 1];
                             if (enemy != null)
                             {
@@ -101,11 +102,17 @@ namespace Final
                         }
                         else if (key == 0)
                         {
-
+                            break;
                         }
                         else
                         {
                             Console.WriteLine("the enemy you selected does not exsist or is dead. Please select a valid target.");
+                            movekey = Console.ReadLine();
+                        }
+
+                        if (movekey != null)
+                        {
+                            Console.WriteLine("Invalid command. Please use select a valid enemy");
                             movekey = Console.ReadLine();
                         }
                     }
