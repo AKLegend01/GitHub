@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Shop
     {
         private Weapon[] weaponArray = new Weapon[3];
+        [NonSerialized]
         private Random r = new Random();
         private Character buyer;
 

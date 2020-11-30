@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Leader : Enemy
     {
         private Tile leaderTarget;

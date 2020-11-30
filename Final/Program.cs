@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Final
 {
@@ -8,6 +9,18 @@ namespace Final
         static void Main(string[] args)
         {
             GameEngine game = new GameEngine();
+
+            
+            //if (File.Exists("saves/save.game"))
+            //{
+            //    Console.WriteLine("would you like to load previous game? (Y/N)");
+            //    string ans = Console.ReadLine();
+            //    if (ans.ToUpper() == "Y")
+            //    {
+            //        game.Load();
+            //    }
+            //}
+            
             bool exit = false;
             while (exit == false) // exit game
             {
@@ -44,6 +57,8 @@ namespace Final
                                 case "x":
                                     exit = true;
                                     valid = true;
+                                    game.Save();
+                                    Environment.Exit(0);
                                     break;
                                 default:
                                     Console.Beep();
@@ -116,15 +131,14 @@ namespace Final
                             }
                             else  // Attack
                             {
-                                string ATKkey = DrawMapAttack(game);
                                 while (valid == false)
                                 {
                                     int key = -1;
-                                    int.TryParse(ATKkey, out key);
+                                    int.TryParse(afterMoveKey, out key);
                                     if (key > 0 && key <= game.PlayerMap.enemy.Length)
                                     {
                                         var enemy = game.PlayerMap.enemy[key - 1];
-                                        if(enemy == null)
+                                        if(enemy != null)
                                         {
                                             bool inRange = game.Player.CheckRange(enemy);
                                             if(inRange == true)
@@ -146,7 +160,7 @@ namespace Final
                                             else
                                             {
                                                 Console.WriteLine("Enemy is out of range. Please select a valid target.");
-                                                ATKkey = Console.ReadLine();
+                                                afterMoveKey = Console.ReadLine();
                                             }
                                         }
                                     }
@@ -157,14 +171,12 @@ namespace Final
                                     else
                                     {
                                         Console.WriteLine("The enemy yov have selected does not exsist or is dead. Please select a valid target");
-                                        ATKkey = Console.ReadLine();
+                                        afterMoveKey = Console.ReadLine();
                                     }
                                 }
 
                             }
-                            game.MoveEnemies();
-                            game.EnemyAttack();
-                            game.PlayerMap.UpdateVision();
+                            
                            
                         }
                         else
@@ -193,7 +205,7 @@ namespace Final
                             if (key > 0 && key <= game.PlayerMap.enemy.Length)
                             {
                                 var enemy = game.PlayerMap.enemy[key - 1];
-                                if (enemy == null)
+                                if (enemy != null)
                                 {
                                     bool inRange = game.Player.CheckRange(enemy);
                                     if (inRange == true)
@@ -229,9 +241,6 @@ namespace Final
                                 AttackKey = Console.ReadLine();
                             }
                         }
-                        game.MoveEnemies();
-                        game.EnemyAttack();
-                        game.PlayerMap.UpdateVision();
                         break;
 
 
@@ -297,6 +306,9 @@ namespace Final
                         break;
              
                 }
+                game.MoveEnemies();
+                game.EnemyAttack();
+                game.PlayerMap.UpdateVision();
             }
 
 
@@ -445,7 +457,7 @@ namespace Final
                     else Console.WriteLine(String.Format("{0}. {1}", i + 1, game.PlayerMap.enemy[i].ToString()));
                 }
                 Console.WriteLine();
-                Console.WriteLine("There is an enemy in your attack range. Press the corresponding numeric key to select the enemy you wish to attack!\n Press 0 if you do not wish to attack.\nPress letter O to open shop");
+                Console.WriteLine("There is an enemy in your attack range. Press the corresponding numeric key to select the enemy you wish to attack!\nPress 0 if you do not wish to attack.\nPress letter O to open shop");
                 //move or attack                
 
                 return Console.ReadLine();

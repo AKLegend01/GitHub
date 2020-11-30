@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Hero : Character
     {
         public Hero(int X, int Y, int Hp) : base(X, Y, 'H')

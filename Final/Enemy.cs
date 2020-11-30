@@ -4,8 +4,10 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     abstract class Enemy : Character
     {
+        [NonSerialized]
         protected Random r = new Random();
 
         public Enemy(int x, int y, int Damage, int hp, char who) : base(x, y, who)

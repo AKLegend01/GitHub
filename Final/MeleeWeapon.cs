@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class MeleeWeapon : Weapon
     {
         public enum Types {Dagger, LongSword}

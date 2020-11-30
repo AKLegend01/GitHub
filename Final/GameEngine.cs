@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace Final
 {
@@ -230,34 +233,51 @@ namespace Final
         {
             for (int i = 0; i < PlayerMap.enemy.Length; i++)
             {
-                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Goblin)
+                var enemys = PlayerMap.enemy[i];
+                if (enemys.TileEnum == Tile.TileType.Goblin)
                 {
                     for (int m = 0; m < 4; m++)
                     {
-                        if (playerMap.enemy[i].Vision[m].TileEnum == Tile.TileType.Hero)
+                        if (enemys.Vision[m].TileEnum == Tile.TileType.Hero)
                         {
-                            PlayerMap.enemy[i].Attack(player);
+                            enemys.Attack(player);
+                            if(Player.IsDead() == true);
+                            {
+                                Console.Clear();
+                                Console.WriteLine("You Died. Game Over!");
+                            }
                         }
                     }
                 }
 
 
-                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Mage)
+                if (enemys.TileEnum == Tile.TileType.Mage)
                 {
                     for (int m = 0; m < 8; m++)
                     {
-                        if (playerMap.enemy[i].Vision[m].TileEnum == Tile.TileType.Hero)
+                        if (enemys.Vision[m].TileEnum == Tile.TileType.Hero)
                         {
-                            PlayerMap.enemy[i].Attack(player);
+                            enemys.Attack(player);
+                            if (Player.IsDead() == true) ;
+                            {
+                                Console.Clear();
+                                Console.WriteLine("You Died. Game Over!");
+                            }
                         }
 
-                        if (playerMap.enemy[i].Vision[m].TileEnum == Tile.TileType.Goblin)
+                        if (enemys.Vision[m].TileEnum == Tile.TileType.Goblin)
                         {
                             for (int j = 0; j < playerMap.enemy.Length; j++)
                             {
-                                if (PlayerMap.enemy[j].x == playerMap.enemy[i].Vision[m].x && PlayerMap.enemy[j].y == playerMap.enemy[i].Vision[m].y)
+                                if (enemys.x == enemys.Vision[m].x && enemys.y == enemys.Vision[m].y)
                                 {
-                                    playerMap.enemy[i].Attack(playerMap.enemy[j]);
+                                    enemys.Attack(playerMap.enemy[j]);
+                                    if (enemys.IsDead() == true) ;
+                                    {
+                                        PlayerMap.mapArray[enemys.y, enemys.x] = new EmptyTile(enemys.y, enemys.x);
+                                        enemys = null;
+                                        PlayerMap.UpdateVision();
+                                    }
                                 }
                             }
 
@@ -268,13 +288,18 @@ namespace Final
                 }
 
 
-                if (PlayerMap.enemy[i].TileEnum == Tile.TileType.Leader)
+                if (enemys.TileEnum == Tile.TileType.Leader)
                 {
                     for (int m = 0; m < 4; m++)
                     {
-                        if (playerMap.enemy[i].Vision[m].TileEnum == Tile.TileType.Hero)
+                        if (enemys.Vision[m].TileEnum == Tile.TileType.Hero)
                         {
-                            PlayerMap.enemy[i].Attack(player);
+                            enemys.Attack(player);
+                            if (Player.IsDead() == true) ;
+                            {
+                                Console.Clear();
+                                Console.WriteLine("You Died. Game Over!");
+                            }
                         }
                     }
                 }
@@ -397,9 +422,44 @@ namespace Final
 
 
 
-        private void Save()
+        public void Save()
         {
+            if (!Directory.Exists("saves"))
+            {
+                Directory.CreateDirectory("saves");
+            }
+            byte[] array;
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, this.playerMap);
+                array = ms.ToArray();
+            }
+            BinaryWriter binaryWriter = new BinaryWriter(File.Open("saves/save.game", FileMode.Create));
+            binaryWriter.Write(array);
+            binaryWriter.Close();
 
+        }
+
+
+
+
+        public void Load()
+        {
+            using (StreamReader streamReader = new StreamReader("saves/save.game"))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                Map map;
+                try
+                {
+                    map = (Map)binaryFormatter.Deserialize(streamReader.BaseStream);
+                }
+                catch (SerializationException ex)
+                {
+                    throw new SerializationException(((object)ex).ToString() + "\n" + ex.Source);
+                }
+                this.playerMap = map;
+            }
         }
 
     }

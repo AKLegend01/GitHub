@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Goblin : Enemy
     {
         
@@ -16,6 +17,10 @@ namespace Final
 
         public override Movements ReturnMove(Movements Move)
         {
+            if (r == null)
+            {
+                r = new Random();
+            }
             int move = r.Next(0, 5);
             while (Vision[move].TileEnum != TileType.Empty)
             {

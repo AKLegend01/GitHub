@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Gold : Item
     {
         private int GoldAmount;
+        [NonSerialized]
         private Random R = new Random();
 
         public int goldAmount { get => GoldAmount; set => GoldAmount = value; }

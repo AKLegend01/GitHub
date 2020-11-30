@@ -11,6 +11,7 @@ namespace Final
         private Hero H;
         private Enemy[] Enemy;
         private int MapWidth, MapHeight;
+        [NonSerialized]
         private Random r = new Random();
         private Item[] Items;
         int count = 0;
@@ -26,8 +27,6 @@ namespace Final
         {
             MapWidth = r.Next(minW, maxW + 1);
             MapHeight = r.Next(minH, maxH + 1);
-            MapWidth = 20;
-            MapHeight = 10;
             this.MapArray = new Tile[MapHeight, MapWidth];
             this.Enemy = new Enemy[numEnemies];
 

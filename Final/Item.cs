@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     public abstract class Item : Tile
     {
         public Item(int x, int y) : base(x, y)

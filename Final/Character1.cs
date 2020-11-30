@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     abstract class Character : Tile
     {
         private int hP;

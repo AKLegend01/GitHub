@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Final
 {
+    [Serializable]
     class Mage : Enemy
     {
         public Mage(int x, int y) : base(x, y, 5, 5, 'M')
