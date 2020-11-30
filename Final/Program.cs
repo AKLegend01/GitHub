@@ -55,7 +55,7 @@ namespace Final
                 
                 for (int i = 0; i < 4; i++)
                 {
-                    if (game.Player.Vision[i].TileEnum == Tile.TileType.Goblin || game.Player.Vision[i].TileEnum == Tile.TileType.Mage)
+                    if (game.Player.Vision[i].TileEnum == Tile.TileType.Goblin || game.Player.Vision[i].TileEnum == Tile.TileType.Mage || game.Player.Vision[i].TileEnum == Tile.TileType.Leader)
                     {
                         EnemyInRange = true;
                     }
@@ -63,8 +63,7 @@ namespace Final
 
                 if (EnemyInRange == true)
                 {
-                    Console.WriteLine("Press the corresponding numeric key to select the enemy you wish to attack!");
-                    movekey = Console.ReadLine();
+                    movekey = DrawMapAgain(game);
                     valid = false;
 
                     while (valid == false)  // attack logic
@@ -100,6 +99,10 @@ namespace Final
                             }
 
                         }
+                        else if (key == 0)
+                        {
+
+                        }
                         else
                         {
                             Console.WriteLine("the enemy you selected does not exsist or is dead. Please select a valid target.");
@@ -112,7 +115,7 @@ namespace Final
             }
 
 
-            static string DrawMap(GameEngine game)
+            static string DrawMap(GameEngine game) // Movement
             {            
                 Console.Clear();
                 Console.WriteLine(game.Player.ToString());
@@ -131,6 +134,22 @@ namespace Final
             }
 
 
+            static string DrawMapAgain(GameEngine game)  // Attack action
+            {
+                Console.Clear();
+                Console.WriteLine(game.Player.ToString());
+                Console.WriteLine();
+                Console.WriteLine(game.ToString());
+                Console.WriteLine();
+
+                Console.WriteLine("There is an enemy in your attack range. Press the corresponding numeric key to select the enemy you wish to attack!\n Press 0 if you do not wish to attack.");              
+                for (int i = 0; i < game.PlayerMap.enemy.Length; i++)
+                {
+                    if (game.PlayerMap.enemy[i] == null) Console.WriteLine((i + 1) + ". Dead");
+                    else Console.WriteLine(String.Format("{0}. {1}", i + 1, game.PlayerMap.enemy[i].ToString()));
+                }
+                return Console.ReadLine();
+            }
 
         }
     }

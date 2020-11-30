@@ -25,6 +25,8 @@ namespace Final
         {
             MapWidth = r.Next(minW, maxW + 1);
             MapHeight = r.Next(minH, maxH + 1);
+            MapWidth = 20;
+            MapHeight = 10;
             this.MapArray = new Tile[MapHeight, MapWidth];
             this.Enemy = new Enemy[numEnemies];
 
@@ -60,9 +62,19 @@ namespace Final
             enemy[0] = (Enemy)Create(Tile.TileType.Leader);
             while (count != numEnemies)
             {
-                rand = r.Next(1, 4);
-                if (rand == 1) enemy[count] = (Enemy)Create(Tile.TileType.Mage);
-                if (rand > 1) enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
+                rand = r.Next(1, 12);
+                if (rand == 1)
+                {
+                    enemy[count] = (Enemy)Create(Tile.TileType.Leader);
+                }
+                else if (rand > 1 && rand <= 4)
+                {
+                    enemy[count] = (Enemy)Create(Tile.TileType.Mage);
+                }
+                else 
+                {
+                    enemy[count] = (Enemy)Create(Tile.TileType.Goblin);
+                }
                 count++;
             }
 
@@ -73,9 +85,25 @@ namespace Final
                 count++;
             }
 
-            while (count < weaponDrop)
+            while (count < weaponDrop + goldDrop)
             {
-                items[count] = (Item)Create(Tile.TileType.Weapon);
+                int weapon = r.Next(0, 4);
+                switch(weapon)
+                {
+                    case 0:
+                        items[count] = (MeleeWeapon)Create(Tile.TileType.Weapon, 0);
+                        break;
+                    case 1:
+                        items[count] = (MeleeWeapon)Create(Tile.TileType.Weapon, 1);
+                        break;
+                    case 2:
+                        items[count] = (RangedWeapon)Create(Tile.TileType.Weapon, 2);
+                        break;
+                    case 3:
+                        items[count] = (RangedWeapon)Create(Tile.TileType.Weapon, 3);
+                        break;
+                }
+                
                 count++;
             }
 
@@ -85,7 +113,7 @@ namespace Final
 
 
 
-        private Tile Create(Tile.TileType type)
+        private Tile Create(Tile.TileType type, int weaponType = 0)
         {
             int PosX = r.Next(1, MapWidth);
             int PosY = r.Next(1, MapHeight);
@@ -113,7 +141,27 @@ namespace Final
                     tile = new Gold(PosX, PosY);
                     break;   
                 case Tile.TileType.Weapon:
-                    // tile = new Weapon(PosX, PosY, 'y');
+                    switch (weaponType)
+                    {
+                        case 0: 
+                            tile = new MeleeWeapon(MeleeWeapon.Types.Dagger, PosX, PosY);
+                            break; 
+                        case 1:
+                            tile = new MeleeWeapon(MeleeWeapon.Types.LongSword, PosX, PosY);
+                            break;
+                        case 2:
+                            tile = new RangedWeapon(RangedWeapon.Types.Rifle, PosX, PosY);
+                            break;
+                        case 3:
+                            tile = new RangedWeapon(RangedWeapon.Types.Longbow, PosX, PosY);
+                            break;
+
+                    }
+                    break;
+                case Tile.TileType.Leader:
+                    Leader leader = new Leader(PosX, PosY);
+                    leader.LeaderTarget = H;
+                    tile = leader;
                     break;
                 case Tile.TileType.Empty:
                     throw new NotImplementedException();

@@ -11,6 +11,7 @@ namespace Final
         private int durability;
         private int cost;
         private string type;
+        private char what;
 
         public int Damage { get => damage; set => damage = value; }
         public virtual int Range { get => range; set => range = value; }
@@ -19,9 +20,15 @@ namespace Final
         public string Type { get => type; set => type = value; }
 
 
-        public Weapon(int x, int y, char what) : base(x, y)
+        public Weapon(char what, int x = 0, int y = 0) : base(x, y)
         {
+            this.what = what;
             this.TileEnum = TileType.Weapon;
+        }
+
+        public override string ToString()
+        {
+            return Convert.ToString(what);
         }
     }
 }

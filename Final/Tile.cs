@@ -8,7 +8,7 @@ namespace Final
     {
         private int X;
         private int Y;
-        public enum TileType { Hero, Mage, Goblin, Gold, Weapon, Empty, Obsticle, Leader };
+        public enum TileType { Hero, Mage, Goblin, Gold, Weapon, Empty, Obsticle, Leader};
         private TileType tileEnum;
 
         public int x { get => X; set => X = value; }

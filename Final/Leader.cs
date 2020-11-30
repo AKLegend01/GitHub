@@ -6,21 +6,21 @@ namespace Final
 {
     class Leader : Enemy
     {
-        private Tile LeaderTarget;
-        private Hero H;
-        public Tile LeaderTarget1 { get => LeaderTarget; set => LeaderTarget = value; }
+        private Tile leaderTarget;
+        public Tile LeaderTarget { get => leaderTarget; set => leaderTarget = value; }
 
 
         public Leader(int x, int y) : base(x, y, 2, 20, 'L')
         {
             this.TileEnum = TileType.Leader;
             this.Gold = 2;
+            this.PickedUpWeapon = new MeleeWeapon(MeleeWeapon.Types.LongSword);
         }
 
         public override Movements ReturnMove(Movements Move)
         {
-            int X = H.x;
-            int Y = H.y;
+            int X = leaderTarget.x;
+            int Y = leaderTarget.y;
             int diffX, diffY;
             int move = 0;
             bool foundMove = false;

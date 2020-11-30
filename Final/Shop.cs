@@ -8,13 +8,11 @@ namespace Final
     {
         private Weapon[] weaponArray = new Weapon[3];
         private Random r = new Random();
-        private Character Buyer;
-        Map M;
-        Weapon W;
-        Character C;
+        private Character buyer;
 
         public Shop(Character whoBuy)
         {
+            buyer = whoBuy;
             for (int i = 0; i < weaponArray.Length; i++)
             {
                 weaponArray[i] = RandomWeapon();
@@ -24,40 +22,32 @@ namespace Final
 
         private Weapon RandomWeapon()
         {
-            int PosX = r.Next(1, M.mapWidth);
-            int PosY = r.Next(1, M.mapHeight);
-            while (M.mapArray[PosY, PosX].TileEnum != Tile.TileType.Empty)
+            int weaponType = r.Next(0, 4);
+            Weapon weapon = null;
+            switch (weaponType)
             {
-                PosX = r.Next(1, M.mapWidth);
-                PosY = r.Next(1, M.mapHeight);
-            }
-
-            int which = r.Next(0, 4);
-
-            switch (which)
-            {
-                case 0: 
-                    W = new MeleeWeapon(MeleeWeapon.Types.Dagger, PosX, PosY);
+                case 0:
+                    weapon = new MeleeWeapon(MeleeWeapon.Types.Dagger);
                     break;
                 case 1:
-                    W = new MeleeWeapon(MeleeWeapon.Types.LongSword, PosX, PosY);
+                    weapon = new MeleeWeapon(MeleeWeapon.Types.LongSword);
                     break;
                 case 2:
-                    W = new RangedWeapon(RangedWeapon.Types.Longbow, PosX, PosY);
+                    weapon = new RangedWeapon(RangedWeapon.Types.Longbow);
                     break;
                 case 3:
-                    W = new RangedWeapon(RangedWeapon.Types.Rifle, PosX, PosY);
+                    weapon = new RangedWeapon(RangedWeapon.Types.Rifle);
                     break;
 
             }
 
-            return W;
+            return weapon;
         }
 
 
         public bool CanBuy(int num)
         {
-            if (weaponArray[num].Cost < C.Gold)
+            if (weaponArray[num].Cost < buyer.Gold)
             {
                 return true;
             }
@@ -67,15 +57,15 @@ namespace Final
 
         public void Buy(int num)
         {
-            C.Gold -= weaponArray[num].Cost;
-            C.PickUp(weaponArray[num]);
+            buyer.Gold -= weaponArray[num].Cost;
+            buyer.PickUp(weaponArray[num]);
             weaponArray[num] = RandomWeapon();
         }
 
 
         public string DisplayWeapon(int num)
         {
-            return String.Format("Buy {0} weapon for {1}", weaponArray[num].Type, weaponArray[num].Cost);
+            return String.Format("{0}. Buy {1} ({2} Gold)", num + 1 ,weaponArray[num].Type, weaponArray[num].Cost);
         }
     }
 }

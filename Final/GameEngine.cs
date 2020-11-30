@@ -205,7 +205,7 @@ namespace Final
                     }
                     if (this.PlayerMap.mapArray[y, x].TileEnum == Tile.TileType.Weapon)
                     {
-                        MapLine += "W";
+                        MapLine += this.PlayerMap.mapArray[y, x].ToString();
                     }
                     if (this.PlayerMap.mapArray[y, x].TileEnum == Tile.TileType.Leader)
                     {
@@ -293,7 +293,7 @@ namespace Final
                 var enemy = PlayerMap.enemy[i];
                 int X = enemy.x;
                 int Y = enemy.y;
-                if (enemy.TileEnum == Tile.TileType.Goblin || enemy.TileEnum == Tile.TileType.Leader)
+                if (enemy.TileEnum == Tile.TileType.Goblin /*|| enemy.TileEnum == Tile.TileType.Leader*/)
                 {
                     Character.Movements moves = enemy.ReturnMove();
                     switch (moves)
@@ -321,11 +321,11 @@ namespace Final
                             PlayerMap.mapArray[Y, X] = new EmptyTile(Y, X);
                             break;
                     }
-                    PlayerMap.UpdateVision();
+                    
                 }
                 
             }
-            
+            PlayerMap.UpdateVision();
         }
 
     }

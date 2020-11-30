@@ -20,9 +20,9 @@ namespace Final
             string Output;
             if (this.PickedUpWeapon == null)
             {
-                Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] ({6} DMG)", "Barehanded", nameof(Enemy), this.HP, this.MaxHP, y, x, this.Damage);
+                Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] ({6} DMG)", "Barehanded", (this.TileEnum), this.HP, this.MaxHP, y, x, this.Damage);
             }
-            else Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] with {6} (Durability: {7}, {8} DMG)", "Equipped", nameof(Enemy), this.HP, this.MaxHP, y, x, this.PickedUpWeapon.Type, this.PickedUpWeapon.Durability, this.PickedUpWeapon.Damage);
+            else Output = String.Format("{0}: {1} ({2}, {3}) at [{4}, {5}] with {6} (Durability: {7}, {8} DMG)", "Equipped", (this.TileEnum), this.HP, this.MaxHP, y, x, this.PickedUpWeapon.Type, this.PickedUpWeapon.Durability, this.PickedUpWeapon.Damage);
             return Output;
 
 

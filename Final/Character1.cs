@@ -11,9 +11,9 @@ namespace Final
         private int damage;
         private Tile[] vision = new Tile[8];
         private int goldPocket;
-        private Weapon pickedUpWeapon;
+        protected Weapon pickedUpWeapon;
 
-        public enum Movements { None, Up, Down, Left, Right };
+        public enum Movements {Up, Down, Left, Right, None };
 
         public int HP { get => hP; set => hP = value; }
         public int MaxHP { get => maxHP; set => maxHP = value; }

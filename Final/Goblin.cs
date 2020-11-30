@@ -11,13 +11,16 @@ namespace Final
         {
             this.TileEnum = TileType.Goblin;
             this.Gold = 1;
-            //this.PickedUpWeapon;
+            this.PickedUpWeapon = new MeleeWeapon(MeleeWeapon.Types.Dagger);
         }
 
         public override Movements ReturnMove(Movements Move)
         {
             int move = r.Next(0, 5);
-            while (Vision[move].TileEnum != TileType.Empty) move = r.Next(0, 5);
+            while (Vision[move].TileEnum != TileType.Empty)
+            {
+                move = r.Next(0, 5);
+            }
             return (Movements)move;
         }
     }
