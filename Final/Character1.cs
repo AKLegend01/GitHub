@@ -30,6 +30,10 @@ namespace Final
         public virtual void Attack(Character Target)
         {
             Target.HP -= this.Damage;
+            if (Target.HP <= 0)
+            {
+                Loot(Target);
+            }
         }
 
         public bool IsDead()
